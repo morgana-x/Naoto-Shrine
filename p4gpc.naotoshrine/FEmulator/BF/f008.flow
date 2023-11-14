@@ -1,0 +1,199 @@
+
+// 
+// FlowScript decompiled using Atlus Script Tools by TGE (2017-2021)
+// In the unfortunate case of any bugs, please report them back to me.
+// 
+
+
+// 
+// Imports
+// 
+
+import( "naotoshrine.msg" );
+
+// Procedure Index: 58
+void jinjya_yashiro_hook()
+{
+    int var91;
+	int randomMoney;
+	randomMoney = 0;
+	int randomGetMoney;
+	randomGetMoney = 0;
+	int randomBlessing;
+	randomBlessing = 0;
+    
+    if ( BIT_CHK( 1538 ) == 1 )
+    {
+        commu_gojitu();
+        return;
+    }
+
+    
+    if ( BIT_CHK( 1542 ) == 1 )
+    {
+        commu_newyear();
+        return;
+    }
+
+    
+    if ( BIT_CHK( 1544 ) == 1 )
+    {
+        OPEN_MSG_WIN();
+        MSG( ``0213_STOP`` );
+        CLOSE_MSG_WIN();
+        return;
+    }
+    else if ( BIT_CHK( 1551 ) == 1 )
+    {
+        OPEN_MSG_WIN();
+        MSG( ``1205_STOP`` );
+        CLOSE_MSG_WIN();
+        return;
+    }
+
+    
+    if ( CHECK_TIME_SPAN( 4, 11, 5, 5 ) == 1 )
+    {
+        OPEN_MSG_WIN();
+        MSG( MSG_JINJYA_YASHIRO );
+        CLOSE_MSG_WIN();
+        return;
+    }
+    else if ( ( ( ( BIT_CHK( 2078 ) == 0 ) && ( GET_WEATHER() != 1 ) ) && ( GET_WEATHER() != 7 ) ) && ( GET_TIME_OF_DAY() != 5 ) )
+    {
+        BIT_ON( 2097 );
+        NPC_OMIKUZI_MAN();
+        BIT_OFF( 2097 );
+    }
+    else if ( BIT_CHK( 2078 ) == 0 )
+    {
+        OPEN_MSG_WIN();
+        MSG( MSG_JINJYA_YASHIRO );
+        CLOSE_MSG_WIN();
+        return;
+    }
+
+    
+    if ( ( GET_WEATHER() == 1 ) || ( GET_WEATHER() == 7 ) )
+    {
+        OPEN_MSG_WIN();
+        MSG( MSG_JINJYA_YASHIRO_RAIN );
+        CLOSE_MSG_WIN();
+        return;
+    }
+
+    SET_MSG_VAR( 20, ADD_YEN( 0 ), 0 );
+    OPEN_MSG_WIN();
+    MSG( MSG_JINJYA_OMIKUZI_DRAW );
+    SEL_CHK_PAD( 14, 2 );
+    var91 = SEL( SEL_JINJYA_OMIKUZI_DRAW );
+    
+    if ( var91 == 2 )
+    {
+        CLOSE_MSG_WIN();
+        return;
+    }
+	else if (var91 == 1)
+	{
+	   if ( ADD_YEN( 0 ) < 200 )
+       {
+            MSG( MSG_JINJYA_OMIKUZI_NOMON );
+            CLOSE_MSG_WIN();
+            return;
+       }
+	   else
+	   {
+			ADD_YEN( -200 );
+	
+			MSG( MSG_NAOTO_PRAY_THINK );
+			randomBlessing = RNG(100);
+			if (randomBlessing < 55)
+			{
+				MSG( MSG_NAOTO_PRAY_NOANSWER);
+				CLOSE_MSG_WIN(); 
+				return;
+			}
+			MSG( MSG_NAOTO_PRAY_MESSAGE );
+			randomGetMoney = RNG(100);
+			if (randomGetMoney < 45)
+			{
+				randomMoney = RNG(380);
+				SET_MSG_VAR( 21, randomMoney, 0 );
+				MSG( MSG_NAOTO_PRAY_MONEY_MESSAGE );
+				ADD_YEN( randomMoney );
+			}
+			CLOSE_MSG_WIN(); 
+			return;
+		}
+	}
+    else if ( var91 == 0 )
+    {
+        
+        if ( ADD_YEN( 0 ) < 200 )
+        {
+            MSG( MSG_JINJYA_OMIKUZI_NOMON );
+            CLOSE_MSG_WIN();
+            return;
+        }
+        else 
+        {
+            CLOSE_MSG_WIN();
+            FADE( FadeType.Smooth, 10 );
+            FADE_SYNC();
+            BIT_OFF( 2520 );
+            CALL_EVENT( 865, 570, 0 );
+            
+            if ( BIT_CHK( 2520 ) == 1 )
+            {
+                ADD_YEN( -200 );
+                
+                if ( GET_TIME_OF_DAY() != 5 )
+                {
+                    BIT_ON( 3998 );
+                }
+                else 
+                {
+                    BIT_ON( 4057 );
+                }
+
+                
+                if ( GET_TIME_OF_DAY() != 5 )
+                {
+                    TV_STUDIO();
+                }
+                else 
+                {
+                    commu_yoru();
+                }
+
+                return;
+            }
+            else 
+            {
+                CALL_FIELD( 8, 9, 3, 0 );
+                return;
+            }
+
+        }
+
+    }
+
+}
+
+
+// Procedure Index: 59
+void jinjya_ema_hook()
+{
+    OPEN_MSG_WIN();
+    MSG( JINJYA_EMA );
+    CLOSE_MSG_WIN();
+}
+
+
+// Procedure Index: 60
+void jinjya_mikuzikake_hook()
+{
+    OPEN_MSG_WIN();
+    MSG( JINJYA_MIKUZIKAKE );
+    CLOSE_MSG_WIN();
+}
