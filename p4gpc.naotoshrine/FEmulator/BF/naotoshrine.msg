@@ -35,7 +35,7 @@
 
 [sel SEL_JINJYA_OMIKUZI_DRAW top]
 [s]Draw a fortune[e]
-[s]Pray to Naoto Shiragane[e]
+[s]Pray to Naoto Shirogane[e]
 [s]Nothing[e]
 
 [msg MSG_NAOTO_PRAY_THINK]
